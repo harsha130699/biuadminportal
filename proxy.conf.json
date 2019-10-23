@@ -1,0 +1,9 @@
+
+{
+    "/api/*": {
+      "target": "https://biu-backened.herokuapp.com/",
+      "pathRewrite": {"^/api" : ""},
+      "secure": false,
+      "changeOrigin": true
+    }
+  }

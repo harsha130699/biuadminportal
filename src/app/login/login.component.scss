@@ -1,0 +1,23 @@
+.login-box {
+    position: absolute;
+    top: 50%;
+
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.centered{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.bottommargin{
+    margin-bottom: 1rem;
+}
+
+.errorMsg{
+    color: red;
+}

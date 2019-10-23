@@ -1,0 +1,75 @@
+.example-card {
+    max-width: 300px;
+  }
+  
+ 
+  .acceptedReq{
+    background-image: url('../../assets/images/accepted.png');
+    background-size: cover;
+  }
+
+  
+  .rejectedReq{
+    background-image: url('../../assets/images/rejected.png');
+    background-size: cover;
+  }
+  
+  
+  .requestedReq{
+    background-image: url('../../assets/images/requested.png');
+    background-size: cover;
+  }
+  
+
+  .listing{
+      padding: 2rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      flex-wrap: wrap;
+  }
+
+  .request{
+      margin: 1rem;
+  }
+
+  .divider{
+    width:100%;
+    height: 1rem;
+    color: saddlebrown;
+  }
+
+  .horizontal{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .seperator{
+    width: 0.2rem;
+    height: auto;
+    background-color: #6b756e ;
+  }
+  .accept:hover{
+    background-color: green;
+    color: white;
+
+  }
+  .reject:hover{
+    background-color: red;
+    color: white;
+
+  }
+
+  .undo:hover{
+    background-color: yellow;
+    color: brown;
+
+  }
+
+  span {
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis; 
+}

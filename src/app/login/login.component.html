@@ -1,0 +1,29 @@
+<div class="login-box">
+    <form class="center-aligned" (ngSubmit)="handleLogin()" [formGroup]="loginGroup">
+        <div class="h3 mb-3 font-weight-normal bottommargin">Login</div>
+        <div class="input-group flex-nowrap bottommargin">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width: 50px;" id="addon-wrapping">@</span>
+            </div>
+            <input type="text" formControlName="username" class="form-control"(click)="resetError()" placeholder="Username"
+                aria-label="Username" aria-describedby="addon-wrapping">
+
+        </div>
+        <div class="input-group flex-nowrap bottommargin">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width: 50px;" id="addon-wrapping">🔑</span>
+            </div>
+            <input type="password" class="form-control" formControlName="password" (click)="resetError()" placeholder="Password"
+                aria-label="Password" aria-describedby="addon-wrapping">
+        </div>
+        <div>
+            <div class="centered bottommargin">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Get
+                    in!</button>
+            </div>
+            <div class="errorMsg centered" *ngIf='isError'>🌋{{errorText}}🌋</div>
+
+        </div>
+    </form>
+
+</div>

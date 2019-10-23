@@ -1,0 +1,132 @@
+import { Injectable } from '@angular/core';
+import { AppointmentReq } from 'src/contracts/request';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
+import { Pipe, PipeTransform } from '@angular/core';
+import { DatePipe } from '@angular/common';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RequestsService {
+  requests: AppointmentReq[] = [];
+
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+    this.requests.push({
+      duration: "40",
+      name: "harsha",
+      startTime: "12:30 PM",
+      uid: "1",
+      isAccepted: false,
+      isRejected: false,
+      tou: "teacher"
+
+
+    })
+    this.requests.push({
+      duration: "40",
+      name: "vardhan",
+      startTime: "12:30 PM",
+      uid: "2",
+      isAccepted: true,
+      isRejected: true,
+      tou: "student"
+
+    })
+    this.requests.push({
+      duration: "40",
+      name: "balanagu",
+      startTime: "12:30 PM",
+      uid: "3",
+      isAccepted: true,
+      isRejected: false,
+      tou: "student"
+    })
+  }
+  getRequests() {
+    //get ID from token and make http call
+    // console.log(this.requests)
+    var allRequests: AppointmentReq[] = []
+    this.http.post("api/getAll", { "token": this.cookieService.get("token") }).subscribe(data => {
+      console.log(data)
+      var temp: any[] = data["appoint"]
+      temp.forEach(element => {
+        var start = new Date(element["startTime"])
+        var end = new Date(element["endTime"])
+        console.log(end.valueOf() - start.valueOf())
+        allRequests.push({
+          duration: "" + ((new Date(element["endtime"])).valueOf()-(new Date(element["startTime"])).valueOf())/60000,
+          name: element["name"],
+          startTime: start.getDate() + "/" + start.getMonth() + "/" + start.getFullYear() + " " + start.getHours() + ":" + start.getMinutes(),
+          uid: element["uuid"],
+          isAccepted: element["isAccepted"],
+          isRejected: element["isRejected"],
+          tou: element["tou"]
+        })
+      });
+    })
+
+    console.log(allRequests)
+    return allRequests;
+
+  }
+
+  acceptReq(id) {
+    return this.http.post("api/acceptAppointment", { "token": this.cookieService.get("token"), "appointmentId": id })
+
+  }
+
+  rejectReq(id, msg) {
+    return this.http.post("api/rejectAppointment", { "token": this.cookieService.get("token"), "appointmentId": id })
+
+  }
+
+  removeReq(id) {
+    //insert remove logic here
+  }
+
+  undoReq(id) {
+    this.requests.some(element => {
+      if (element.uid == id) {
+
+        element.isAccepted = false;
+        element.isRejected = false;
+        return true;
+
+      }
+
+    });
+
+  }
+  undoReject(id) {
+    this.requests.some(element => {
+      if (element.uid == id) {
+        element.isRejected = false;
+        element.isAccepted = false;
+        return true;
+      }
+
+    });
+  }
+
+  sendMsg(msg) {
+    const requestOptions = {
+      params: new HttpParams()
+    };
+    requestOptions.params.set('Content-Type', 'application/json');
+    requestOptions.params.set('Authorization', 'Basic ZGIzZDUzODEtYjhjNS00NjMwLTkzMDktNjg1NjBiNWIyNjdi');
+
+
+
+    this.http.post("https://onesignal.com/api/v1/notifications", {
+      "app_id": "138103c5-35dd-497d-8c98-116e82be814b",
+      "headings": { "en": "Text from " + this.cookieService.get("name") },
+      "included_segments": ["All"],
+      "data": { "foo": "bar" },
+      "contents": { "en": msg }
+    }, requestOptions).subscribe(data => {
+      console.log("Sent to all!")
+    })
+  }
+}

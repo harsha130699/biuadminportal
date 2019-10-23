@@ -1,0 +1,52 @@
+<ng-progress></ng-progress>
+<div class="listing">
+
+
+    <div *ngFor="let request of requests" class="request">
+        <mat-card class="example-card" [class.mat-elevation-z7]="true">
+            <span>
+                <mat-card-header>
+                    <div mat-card-avatar *ngIf="request.isAccepted && !request.isRejected" class="acceptedReq"></div>
+                    <div mat-card-avatar *ngIf="request.isRejected" class="rejectedReq"></div>
+                    <div mat-card-avatar *ngIf="!request.isAccepted && !request.isRejected" class="requestedReq"></div>
+
+
+                    <mat-card-title>{{request.name}}</mat-card-title>
+                </mat-card-header>
+            </span>
+            <img mat-card-image *ngIf="request.tou=='student'" src="../../assets/images/student.png"
+                alt="Photo of a student">
+            <img mat-card-image *ngIf="request.tou=='teacher'" src="../../assets/images/teacher.png"
+                alt="Photo of a Shiba Inu">
+            <mat-card-content class="horizontal" style="text-align: center;">
+                <div>
+                    <mat-card>
+                        <div>
+                            <mat-card-title> {{request.startTime}} </mat-card-title>
+                        </div>
+                        <div class="seperator"></div>
+                        <div>
+                            <mat-card-title> {{request.duration}} minutes</mat-card-title>
+                        </div>
+
+                    </mat-card>
+                </div>
+            </mat-card-content>
+            <mat-card-actions style="text-align: center;" *ngIf="!request.isAccepted && !request.isRejected">
+                <button mat-button class="accept"  (click)="acceptReq(request.uid)">ACCEPT</button>
+                <button mat-button class="reject" (click)="rejectReq(request.uid)">REJECT</button>
+            </mat-card-actions>
+            <mat-card-actions style="text-align: center;" *ngIf="request.isAccepted && !request.isRejected">
+                <button mat-button class="accept" (click)="startReq(request.uid)">START</button>
+                <button mat-button class="reject" (click)="endReq(request.uid)">END</button>
+                <button mat-button class="undo" (click)="undoReq(request.uid)">UNDO</button>
+
+            </mat-card-actions>
+            <mat-card-actions style="text-align: center;" *ngIf="request.isRejected">
+                <button mat-button class="reject" (click)="removeReq(request.uid)">REMOVE</button>
+                <button mat-button class="undo" (click)="undoReject(request.uid)">UNDO REJECT</button>
+
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
